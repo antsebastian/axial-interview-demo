@@ -9,23 +9,26 @@ export class FinanceUtils {
       try {
         const num = parseFloat(inputNumber);
         const unit = inputNumber.replace(/[^a-zA-Z]/g, '').toUpperCase();
-
-        switch (unit) {
-          case 'K':
-            outputNumber = num * 1000;
-            break;
-          case 'M':
-            outputNumber = num * 1000000;
-            break;
-          case 'B':
-            outputNumber = num * 1000000000;
-            break;
-          case 'T':
-            outputNumber = num * 1000000000000;
-            break;
-          default:
-            outputNumber = num;
-            break;
+        if (!unit) {
+          outputNumber = num;
+        } else {
+          switch (unit) {
+            case 'K':
+              outputNumber = num * 1000;
+              break;
+            case 'M':
+              outputNumber = num * 1000000;
+              break;
+            case 'B':
+              outputNumber = num * 1000000000;
+              break;
+            case 'T':
+              outputNumber = num * 1000000000000;
+              break;
+            default:
+              outputNumber = undefined;
+              break;
+          }
         }
       } catch (ex) {
         outputNumber = undefined;
