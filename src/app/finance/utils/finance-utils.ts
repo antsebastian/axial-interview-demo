@@ -5,22 +5,40 @@ export class FinanceUtils {
 
   static parseInputNumber(inputNumber: string | undefined): IFinanceModel {
     let outputNumber: number | undefined = undefined;
-    if (FinanceUtils.isInputFormat(inputNumber)) {
-      outputNumber = 250000;
+    if (inputNumber) {
+      try {
+        const num = parseFloat(inputNumber);
+        const unit = inputNumber.replace(/[^a-zA-Z]/g, '').toUpperCase();
+
+        switch (unit) {
+          case 'K':
+            outputNumber = num * 1000;
+            break;
+          case 'M':
+            outputNumber = num * 1000000;
+            break;
+          case 'B':
+            outputNumber = num * 1000000000;
+            break;
+          case 'T':
+            outputNumber = num * 1000000000000;
+            break;
+          default:
+            outputNumber = num;
+            break;
+        }
+      } catch (ex) {
+        outputNumber = undefined;
+        console.error(ex);
+      }
     }
     return {inputNumber, outputNumber};
-  }
-
-  static isInputFormat(inputNumber: string | undefined): boolean {
-    if (!inputNumber)
-      return false;
-    return inputNumber == '250k'
   }
 
   static humanNumberValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const val = control.value;
-      return FinanceUtils.isInputFormat(val) ? null : {format: {value: control.value}};
+      return FinanceUtils.parseInputNumber(val).outputNumber ? null : {format: {value: control.value}};
     };
   }
 }
