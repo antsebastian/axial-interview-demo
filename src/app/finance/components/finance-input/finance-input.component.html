@@ -1,0 +1,14 @@
+<div class="page-container">
+  <form (ngSubmit)="onSubmitForm(inputForm.value)" [formGroup]="inputForm">
+    <mat-form-field class="example-full-width">
+      <mat-label>Financial Number:</mat-label>
+      <input formControlName="inputNumber" matInput placeholder="Ex. 250k, 10m, .5B" type="text">
+      @if (inputForm.controls['inputNumber'].hasError('required')) {
+        <mat-error>Financial Number is required.</mat-error>
+      } @else if (inputForm.controls['inputNumber'].hasError('format')) {
+        <mat-error>Financial Number format error.</mat-error>
+      }
+    </mat-form-field>
+    <button mat-button type="submit" value="submit">Submit</button>
+  </form>
+</div>

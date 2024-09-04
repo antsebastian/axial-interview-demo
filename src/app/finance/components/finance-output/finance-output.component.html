@@ -1,0 +1,9 @@
+<div class="page-container">
+  @if (financeModel$ | async; as finModel) {
+    @if (finModel.outputNumber) {
+      <div>{{ finModel.outputNumber | number: '2.' }}</div>
+    } @else {
+      <div>Please define the input first.</div>
+    }
+  }
+</div>
